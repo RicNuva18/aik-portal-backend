@@ -8,8 +8,8 @@ node {
         echo "Inicio checkout git repo"
         checkout scm
     stage "Run test"
-        sh "docker run -v \$(pwd)/aik-app-api:/data --rm usemtech/nodejs-mocha npm install"
-        sh "docker run -v \$(pwd)/aik-app-api:/data --rm usemtech/nodejs-mocha npm test"
+        sh "sudo docker run -v \$(pwd)/aik-app-api:/data --rm usemtech/nodejs-mocha npm install"
+        sh "sudo docker run -v \$(pwd)/aik-app-api:/data --rm usemtech/nodejs-mocha npm test"
     stage "Build RPM"
         sh "[ -d ./rpm] || mkdir ./rpm"
         sh "docker run -v \$(pwd)/aik-app-api:/data/aik-app -v \$(pwd)/aik-app-api/rpm:/data/rpm --rm tenzer/fpm -s dir -t rpm -n aik-app -v \$(git rev-parse --short HEAD) --description \"Aik app api\" --directories /var/www/aik-app --package /data/rpm/aik-app-\$(git rev-parse --short HEAD).rpm /data/aik-app=/var/www/"
